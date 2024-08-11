@@ -37,33 +37,33 @@ const ItemList = ({isAdd, isEquip}) => {
   return (
     <>
         {isAdd ? 
-            <div>
-                <h1>Add to Inventory</h1>
-                <Link to={`/characters/${character}`} >
-                    <button className='back-btn'>Back</button>
-                </Link>
-            </div>
+          <div>
+            <h1>Add to Inventory</h1>
+            <Link to={`/characters/${character}`} >
+                <button className='back-btn'>Back</button>
+            </Link>
+          </div>
         :
-            <div>
+          <div>
             <h1>Items</h1>
 
-                <Link to={`/items/homebrew/add`}>
-                    <button className='add-btn'>Add Homebrew Item</button>
-                </Link>
+            <Link to={`/items/homebrew/add`}>
+                <button className='add-btn'>Add Homebrew Item</button>
+            </Link>
 
-                <Link to={`/items/share-link/add`} style={{marginLeft: '5%', top: 0, position: 'relative'}}>
-                    <button className='add-btn'>Add Share Link!</button>
-                    <button style={{position: 'absolute', bottom: "80%", right: 0, fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
-                      i
-                    </button>
-                </Link>
+            <Link to={`/items/share-link/add`} style={{marginLeft: '5%', top: 0, position: 'relative'}}>
+                <button className='add-btn'>Add Share Link!</button>
+                <button style={{position: 'absolute', bottom: "80%", right: 0, fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
+                  i
+                </button>
+            </Link>
 
-                {admin ? 
-                <Link to={`/items/5e/add`} style={{marginLeft: '5%'}}>
-                    <button className='add-btn'>Add 5e Item</button>
-                </Link>
-                : ""}
-            </div>
+            {admin ? 
+            <Link to={`/items/5e/add`} style={{marginLeft: '5%'}}>
+                <button className='add-btn'>Add 5e Item</button>
+            </Link>
+            : ""}
+          </div>
         }
       
       

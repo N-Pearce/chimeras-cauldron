@@ -1,6 +1,6 @@
 .auth{
     background-color: white;
-    width: 60%;
+    width: min(90%, 500px);
     margin: auto;
     input {
         width: 90%;
