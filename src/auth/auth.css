@@ -1,0 +1,54 @@
+.auth{
+    background-color: white;
+    width: 500px;
+    margin: auto;
+    input {
+        width: 90%;
+        margin-bottom: 20px;
+        margin-top: 5px;
+        height: 40px;
+        align-self: center;
+        border: solid gray 1px;
+        border-radius: 6px;
+    }
+    select {
+        width: 90%;
+        margin-bottom: 20px;
+        margin-top: 5px;
+        height: 40px;
+        align-self: center;
+        border: solid gray 1px;
+        border-radius: 6px;
+        option {
+            width: 90%;
+            margin-bottom: 20px;
+            margin-top: 5px;
+            height: 40px;
+            align-self: center;
+            border: solid gray 1px;
+            border-radius: 6px;
+        }
+    }
+    form { 
+        display: flex;
+        flex-direction: column;
+    }
+    button {
+        width: 90%;
+        align-self: center;
+        margin: 20px;
+        height: 40px;
+        background-color: rgb(103, 103, 255);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+    button:hover {
+        cursor: pointer
+    }
+}
+
+#ddlProducts * {
+    background-color: red;
+}

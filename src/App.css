@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+body{
+  background-color:#61dafb;
+}
+
+.white {
+  color: white;
+  text-shadow: black 2px 2px 4px;
+}
+
+.alert-success{
+  background-color: aqua;
+}
+
+.alert-danger {
+  background-color: lightcoral;
+}

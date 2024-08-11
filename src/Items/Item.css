@@ -1,0 +1,110 @@
+.itemCard {
+    background-color: white;
+    text-align: left;
+    min-height: 70px;
+    width: 95%;
+    border-radius: 6px;
+    margin: auto;
+    p {
+        margin-left: 20px;
+        color: black;
+    }
+}
+.itemCard:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 4px 6px rgba(0, 0, 0, 0.23);
+}
+
+.card {
+    text-decoration: none;
+}
+
+.white {
+    color: white;
+    text-shadow: black 2px 2px 4px;
+}
+
+br {
+    margin-top: 100px;
+}
+
+.card-btn {
+    margin-left: 5%;
+    height: 2rem;
+    min-width: 10%;
+}
+
+.largeBtn {
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    width: 20%;
+    height: 130%;
+}
+
+.large {
+    height: '50px';
+    margin-right: '10%';
+    margin-bottom: '-10%';
+    margin-top: '1%'
+}
+
+.back-btn{
+    height: 40px;
+    width: 70px;
+}
+
+.rmv-btn {
+    margin-left: 2%;
+    margin-bottom: 1%;
+    height: 30px;
+}
+
+/* Rarirty marker */
+
+.triangle {
+    margin-left: 1%;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 14px solid white; 
+}
+
+.triangle.Common {
+    border-bottom: 14px solid black; 
+}
+.triangle.Uncommon {
+    border-bottom: 14px solid green; 
+}
+.triangle.Rare {
+    border-bottom: 14px solid blue;
+}
+.triangle.Very {
+    border-bottom: 14px solid Purple; 
+}
+.triangle.Legendary {
+    border-bottom: 14px solid goldenrod; 
+}
+.triangle.Artifact {
+    border-bottom: 14px solid rgb(163, 119, 8); 
+}
+
+
+.Common {
+    color: black; 
+}
+.Uncommon {
+    color: green; 
+}
+.Rare {
+    color: blue;
+}
+.Very {
+    color: Purple; 
+}
+.Legendary {
+    color: goldenrod; 
+}
+.Artifact {
+    color: rgb(163, 119, 8); 
+}
