@@ -134,7 +134,7 @@ const AddItem = () => {
                 <br/>
                 Description <br/><br/>
                 (Text wrapped in ***triple asterisks*** will appear bold <br/>
-                ---And text after three hyphens will start a new paragraph)
+                ---Text after three hyphens will start a new paragraph)
                 <input name="description" type='text' onChange={handleChange} required></input>
                 <button>Submit</button>
             </form>

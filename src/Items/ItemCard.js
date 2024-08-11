@@ -10,7 +10,7 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     const {character} = useParams()
     // item from inventory, then all items
     const {id:inventoryId, num_items} = item;
-    const {brew_id, user:creator, name:itemName, rarity, type} = item;
+    const {brew_id, user:creator, name:itemName, rarity, type, attunement} = item;
     let {item_5e_index:index} = item;
     if (item.index) index = item.index
     const [numItems, setNumItems] = useState(num_items)
@@ -56,7 +56,6 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
             <b style={{flex: "1"}}>
                 {itemName}
             </b>
-
 
             {state === 'isInventory' ? 
             <b style={{flex: "1.8"}}>

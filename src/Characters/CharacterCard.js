@@ -4,7 +4,7 @@ import UserContext from '../auth/UserContext'
 
 const CharacterCard = ({name, id}) => {
     const navigate = useNavigate()
-    const {user, characterId, setCharacterId} = useContext(UserContext)
+    const {setCharacterId} = useContext(UserContext)
 
     async function handleClick(evt) {
         evt.preventDefault()

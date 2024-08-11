@@ -19,8 +19,8 @@ const EquippedCard = ({item, slot, rerender, setRerender}) => {
     <Link className={'card'} to={`/characters/${character}/inventory/equip?slot=${slot}`}>
         <div className='itemCard'>
         {item ?
-            <div>
-            <p style={{position: 'relative'}}>
+          <div>
+            <p style={{position: 'relative', flex: "1"}}>
             <b>{name}</b>
             
             {attunement ? 
@@ -29,16 +29,16 @@ const EquippedCard = ({item, slot, rerender, setRerender}) => {
               </b>
             : ""}
             <img className={`triangle ${rarity}`}></img>
-
             <span style={{marginLeft: '1%'}}>({slot})</span>
-            <button className='largeBtn' onClick={(e) => handleUnequip(e, id)}>
+
+            <button className='largeBtn' onClick={(e) => handleUnequip(e, id)} style={{flex: '2'}}>
                 Unequip
             </button>
             <br/>
             <span style={{color: 'gray'}}>(Click to change)</span>
             </p>
             
-            </div> 
+          </div> 
         : 
         <p><b>Choose {slot}</b></p>}
         </div>

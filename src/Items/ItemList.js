@@ -51,9 +51,9 @@ const ItemList = ({isAdd, isEquip}) => {
                     <button className='add-btn'>Add Homebrew Item</button>
                 </Link>
 
-                <Link to={`/items/share-link/add`} style={{marginLeft: '5%', top: -6, position: 'relative'}}>
+                <Link to={`/items/share-link/add`} style={{marginLeft: '5%', top: 0, position: 'relative'}}>
                     <button className='add-btn'>Add Share Link!</button>
-                    <button style={{position: 'absolute', bottom: 16, right: 0, fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
+                    <button style={{position: 'absolute', bottom: "80%", right: 0, fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
                       i
                     </button>
                 </Link>
