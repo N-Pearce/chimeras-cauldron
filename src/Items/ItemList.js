@@ -47,22 +47,32 @@ const ItemList = ({isAdd, isEquip}) => {
           <div>
             <h1>Items</h1>
 
-            <Link to={`/items/homebrew/add`}>
-                <button className='add-btn'>Add Homebrew Item</button>
-            </Link>
+            <div style={{display: 'flex', justifyContent: "center", gap: '2%', flexWrap: 'wrap'}}>
+              <div style={{flex: ".2", minWidth: '150px'}}>
+                <Link to={`/items/homebrew/add`}>
+                    <button className='add-btn'>Add Homebrew Item</button>
+                </Link>
+              </div>
 
-            <Link to={`/items/share-link/add`} style={{marginLeft: '5%', top: 0, position: 'relative'}}>
-                <button className='add-btn'>Add Share Link!</button>
-                <button style={{position: 'absolute', bottom: "80%", right: 0, fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
-                  i
-                </button>
-            </Link>
+              <div style={{flex: ".2", minWidth: '150px'}}>
+                <Link to={`/items/share-link/add`} style={{marginLeft: '0%', top: 0, position: 'relative'}}>
+                    <button className='add-btn'>Add Share Link!</button>
+                    <button style={{position: 'absolute', bottom: "80%", right: 0, fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
+                      i
+                    </button>
+                </Link>
+              </div>
 
-            {admin ? 
-            <Link to={`/items/5e/add`} style={{marginLeft: '5%'}}>
-                <button className='add-btn'>Add 5e Item</button>
-            </Link>
-            : ""}
+              {admin ? 
+              
+              <div style={{flex: ".2", minWidth: '150px'}}>
+                <Link to={`/items/5e/add`} style={{marginLeft: '0%'}}>
+                    <button className='add-btn'>Add 5e Item</button>
+                </Link>
+              </div>
+              : ""}
+            </div>
+            
           </div>
         }
       

@@ -1,4 +1,4 @@
 .add-btn {
-    width: 20%;
+    width: max(20%, 150px);
     height: 60px;
 }
