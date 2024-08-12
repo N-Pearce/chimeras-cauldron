@@ -77,7 +77,7 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
 
 
         {brew_id ? 
-            <p style={{marginTop: '-20px'}}>Made by {creator}</p>  
+            <p style={{marginTop: '-10px'}}>Made by {creator}</p>  
         : ""}
         
         <p><span className={rarity}>{rarity}</span> {type}</p>
