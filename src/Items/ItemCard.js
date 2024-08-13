@@ -10,7 +10,7 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     const {character} = useParams()
     // item from inventory, then all items
     const {id:inventoryId, num_items} = item;
-    const {brew_id, user:creator, name:itemName, rarity, type, attunement} = item;
+    const {brew_id, user:creator, name:itemName, rarity, type} = item;
     let {item_5e_index:index} = item;
     if (item.index) index = item.index
     const [numItems, setNumItems] = useState(num_items)
@@ -44,12 +44,15 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
         setRerender(!rerender)
     }
 
+    let linkTo = `/items/${index ? index : brew_id}/?`
+    if (isAdd) linkTo += 'isAdd=true'
+    if (state === "isInventory") linkTo += "isInventory=true"
+    if (state === 'isEquip') linkTo += `isEquip=true&slot=${slot}`
+
+
   return (
     <Link className={'card'} 
-        to={`/items/${index ? index : brew_id}/?
-        ${isAdd ? 'isAdd=true' : ''}
-        ${state === "isInventory" ? '&isInventory=true' : 
-        state === "isEquip" ? `&isEquip=true&slot=${slot}` : ''}`}>
+        to={linkTo}>
 
       <div className='itemCard'>
         <p style={{display: "flex"}}>

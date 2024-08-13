@@ -3,7 +3,7 @@ import React from 'react'
 const CopyrightNotice = () => {
   return (
     <div className='itemCard' style={{paddingLeft: 10, paddingRight: 10}}>
-        <h1>Copyright Notice</h1>
+        <h1 className='standard'>Copyright Notice</h1>
         <p>&emsp;&emsp;The following Open Gaming License is for all spells and items that appear within this site
             that do NOT include a tag that says "Made by (username)". The spells and items under the OGL
             include all that appear under a fresh account that has done nothing but sign up. All homebrew content

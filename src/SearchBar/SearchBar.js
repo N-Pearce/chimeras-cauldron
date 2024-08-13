@@ -8,11 +8,9 @@ const SearchBar = ({setTerm}) => {
     }
 
     return (
-        <div>
-            <form>
-                <input name='searchTerm' placeholder='Enter search term...' onChange={handleChange}></input>
-            </form>
-        </div>
+        <form>
+            <input name='searchTerm' placeholder='Enter search term...' onChange={handleChange}></input>
+        </form>
     )
 }
 

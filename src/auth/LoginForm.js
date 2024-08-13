@@ -27,22 +27,28 @@ const LoginForm = ({login}) => {
     }
 
     return (
+        <>
+        <h1>Login</h1>
         <div className='auth'>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Username
-                    <input name="username" onChange={handleChange} required></input>
-                </label>
-                <label>
-                    Password
-                    <input name="password" type='password' onChange={handleChange} required></input>
-                </label>
+                
+                    <div className='input-field'>
+                        <input name="username" onChange={handleChange} required></input>
+                        <label>Username</label>
+                    </div>
+                
+                    <div className='input-field'>
+                        <input name="password" type='password' onChange={handleChange} required></input>
+                        <label>Password</label>
+                    </div>
+                    <br/>
                 {failed
-                    ? <Alert messages={["Login Failed."]} />
+                    ? <Alert messages={["Incorrect username or password."]} />
                     : null}
                 <button>Submit</button>
             </form>
         </div>
+        </>
     )
 }
 

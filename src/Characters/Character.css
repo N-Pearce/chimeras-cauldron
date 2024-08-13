@@ -1,4 +1,9 @@
 .add-btn {
-    width: max(20%, 150px);
+    width: min(20%, 200px);
+    height: 60px;
+}
+
+.mini-btn {
+    width: 100%;
     height: 60px;
 }

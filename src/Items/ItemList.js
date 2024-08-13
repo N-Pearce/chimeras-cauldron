@@ -38,26 +38,26 @@ const ItemList = ({isAdd, isEquip}) => {
     <>
         {isAdd ? 
           <div>
-            <h1>Add to Inventory</h1>
+            <h1 className='white'>Add to Inventory</h1>
             <Link to={`/characters/${character}`} >
                 <button className='back-btn'>Back</button>
             </Link>
           </div>
         :
           <div>
-            <h1>Items</h1>
+            <h1 className='white'>Items</h1>
 
             <div style={{display: 'flex', justifyContent: "center", gap: '2%', flexWrap: 'wrap'}}>
-              <div style={{flex: ".2", minWidth: '150px'}}>
+              <div style={{flex: ".2", minWidth: 'min(20%, 150px)'}}>
                 <Link to={`/items/homebrew/add`}>
-                    <button className='add-btn'>Add Homebrew Item</button>
+                    <button className='mini-btn'>Add Homebrew Item</button>
                 </Link>
               </div>
 
-              <div style={{flex: ".2", minWidth: '150px'}}>
-                <Link to={`/items/share-link/add`} style={{marginLeft: '0%', top: 0, position: 'relative'}}>
-                    <button className='add-btn'>Add Share Link!</button>
-                    <button style={{position: 'absolute', bottom: "80%", right: 0, fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
+              <div style={{flex: ".2", minWidth: 'min(20%, 150px)'}}>
+                <Link to={`/items/share-link/add`} style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <button className='mini-btn'>Add Share Link!</button>
+                    <button style={{position: 'absolute', fontFamily: "Hoefler Text"}} onClick={handleSLInfo}>
                       i
                     </button>
                 </Link>
@@ -65,9 +65,9 @@ const ItemList = ({isAdd, isEquip}) => {
 
               {admin ? 
               
-              <div style={{flex: ".2", minWidth: '150px'}}>
+              <div style={{flex: ".2", minWidth: 'min(20%, 150px)'}}>
                 <Link to={`/items/5e/add`} style={{marginLeft: '0%'}}>
-                    <button className='add-btn'>Add 5e Item</button>
+                    <button className='mini-btn'>Add 5e Item</button>
                 </Link>
               </div>
               : ""}

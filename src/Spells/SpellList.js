@@ -28,7 +28,7 @@ const SpellList = () => {
 
   return (
     <>
-      <h1>Spells</h1>
+      <h1 className='white'>Spells</h1>
       <SearchBar search={search}
         term={term}
         setTerm={setTerm}/>

@@ -34,7 +34,7 @@ const Profile = () => {
                 last_name: formData.last_name,
                 email: formData.email
             }
-            let thisUser = await Supabase.updateUser(username, profileData)
+            await Supabase.updateUser(username, profileData)
             setSaveConfirmed(true)
         } catch(error) {
             console.log(error)
@@ -43,7 +43,6 @@ const Profile = () => {
 
     function handleSubmit(evt) {
         evt.preventDefault()
-        console.log(687)
         updateProfile()
     }
 
@@ -63,27 +62,41 @@ const Profile = () => {
     if (!userData) return <p className='white'>Loading...</p>
 
     return (
-        <div style={{paddingLeft: 10, paddingRight: 10}}>
-            <h1 style={{textAlign: 'center'}}>Profile</h1>
-            <form className='auth' onSubmit={handleSubmit}>
-                Username:
-                <input name='username' value={formData.username} style={{backgroundColor: "lightGray"}} readOnly></input><br/>
-                First Name:
-                <input name='first_name' value={formData.first_name} onChange={handleChange}></input><br/>
-                Last Name:
-                <input name='last_name' value={formData.last_name} onChange={handleChange}></input><br/>
-                Email: <br/>
-                <input name='email' value={formData.email} onChange={handleChange}></input><br/>
-                Share Link: 
+        <>
+        <h1 className='white' style={{textAlign: 'center'}}>Profile</h1>
+        <div className='auth' style={{paddingLeft: 10, paddingRight: 10}}>
+            <form onSubmit={handleSubmit}>
                 
-                <Link style={{position: 'relative'}} to='/share-link-info'>
-                    <button style={{position: 'absolute', borderRadius: "25px", backgroundColor: 'grey', height: '90%', width: '20px', top: -17, left: -15, fontFamily: "Hoefler Text"}}>
-                        i
-                    </button>
-                </Link>
+                <div className='input-field'>
+                    <input name="username" value={formData.username} style={{backgroundColor: 'rgba(200,200,200, .4)'}}></input>
+                    <label>Username</label>
+                </div>
+                <div className='input-field'>
+                    <input name="first_name" value={formData.first_name} onChange={handleChange}></input>
+                    <label>First Name</label>
+                </div>
+                <div className='input-field'>
+                    <input name="last_name" value={formData.last_name} onChange={handleChange}></input>
+                    <label>Last Name</label>
+                </div>
+                <div className='input-field'>
+                    <input name="email" value={formData.email} onChange={handleChange}></input>
+                    <label>Email</label>
+                </div>
+                
+                <div className='input-field'>
+                    <input name="share_link" value={`user-${formData.share_link}`} style={{backgroundColor: 'rgba(200,200,200, .4)'}}></input>
+                    <label>
+                        Share Link 
+                    </label>
+                    
+                    <Link style={{position: 'absolute', height: '20%', left: "80px"}} to='/share-link-info'>
+                        <button style={{position: 'absolute', borderRadius: "25px", height: '100%', width: '20px', top: '5%', left: '60%', fontFamily: "Hoefler Text"}}>
+                            i
+                        </button>
+                    </Link>
+                </div>
                 <br/>
-                <input name='share_link' value={`user-${formData.share_link}`} style={{backgroundColor: 'lightgray'}} readOnly></input>
-
                 {saveConfirmed
                     ? <Alert type="success" messages={["Updated successfully."]} />
                     : null}
@@ -91,6 +104,7 @@ const Profile = () => {
                 <button>Update</button>
             </form>
         </div>
+        </>
     )
 }
 

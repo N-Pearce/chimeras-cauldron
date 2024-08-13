@@ -27,7 +27,7 @@ const CharacterList = () => {
 
     return (
         <div>
-            <h1>Characters</h1>
+            <h1 className='white'>Characters</h1>
             <Link className={'card'} to={`/characters/add`}>
                 <button className='add-btn'>Add New Character!</button>
             </Link>

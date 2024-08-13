@@ -68,7 +68,7 @@ const CharacterDetails = () => {
 
   return (
     <>
-    <h1>{character}</h1>
+    <h1 className='white'>{character}</h1>
 
       <div style={{display: "flex"}}>
         <Link to={`/characters/${character}/inventory`} className={'card itemCard'} style={{flex: "1", margin: "3%"}} >

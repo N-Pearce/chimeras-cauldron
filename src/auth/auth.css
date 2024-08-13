@@ -1,52 +1,113 @@
 .auth{
-    background-color: white;
+    padding: 0 10%;
+    box-sizing: border-box;
+    background-color: #191825;
+    border-radius: 16px;
     width: min(90%, 500px);
     margin: auto;
-    input {
-        width: 90%;
-        margin-bottom: 20px;
-        margin-top: 5px;
-        height: 40px;
-        align-self: center;
-        border: solid gray 1px;
-        border-radius: 6px;
-    }
-    select {
-        width: 90%;
-        margin-bottom: 20px;
-        margin-top: 5px;
-        height: 40px;
-        align-self: center;
-        border: solid gray 1px;
-        border-radius: 6px;
-        option {
-            width: 90%;
-            margin-bottom: 20px;
-            margin-top: 5px;
-            height: 40px;
-            align-self: center;
-            border: solid gray 1px;
-            border-radius: 6px;
-        }
-    }
-    form { 
-        display: flex;
-        flex-direction: column;
-    }
-    button {
-        width: 90%;
-        align-self: center;
-        margin: 20px;
-        height: 40px;
-        background-color: rgb(103, 103, 255);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 16px;
-    }
-    button:hover {
-        cursor: pointer
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-field input, select {
+    width: 350px;
+    height: 60px;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    padding: 0 15px;
+    border: 2px solid #fff;
+    background: transparent;
+    outline: none;
+    color: #fff;
+    background-color: transparent;
+}::-ms-reveal {
+    filter: invert(100%);
+}
+
+select{
+    width: 100%;
+}
+
+textarea {
+    width: 98%;
+    height: 190%;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #191825;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: lighter;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    resize: vertical;
+}
+
+.pLabel{
+    margin-bottom: .6rem;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+select option {
+    background-color: #191825;
+    color: #ffffff;
+}:checked {
+    background-color: #585858;
+}
+
+.input-field {
+    position: relative;
+}
+
+.input-field label{
+    position: absolute;
+    top: 65%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1.2rem;
+    pointer-events: none;
+    transition: .3s;
+}
+/* 
+.input-field input[value~="greggy"] {
+    background-color: purple;
+} */
+
+.auth input:focus{
+    border: 2px solid #1cd679;
+}
+.auth select:focus{
+    border: 2px solid #1cd679;
+}
+.auth textarea:focus{
+    border: 2px solid #1cd679;
+}
+.auth input:focus ~ label,
+.auth input:valid ~ label{
+    top: 30%;
+    font-size: 1rem;
+    padding: 0 10px;
+    background: #191825;
+}
+
+.auth form { 
+    display: flex;
+    flex-direction: column;
+}
+.auth button {
+    width: 100%;
+    align-self: center;
+    margin: 20px;
+    height: 40px;
+    background-color: #63304c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+button:hover {
+    cursor: pointer
 }
 
 #ddlProducts * {

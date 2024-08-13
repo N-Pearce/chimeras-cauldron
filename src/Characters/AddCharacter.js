@@ -30,13 +30,18 @@ const AddCharacter = () => {
     }, [])
 
   return (
-    <div className='auth'>
-        <form onSubmit={handleSubmit}>
-            Name
-            <input name="name" onChange={handleChange} required></input>
-            <button>Submit</button>
-        </form>
-    </div>
+    <>
+        <h1 className='white'>Add Character</h1>
+        <div className='auth'>
+            <form onSubmit={handleSubmit}>
+                <div className='input-field'>
+                    <input name="name" onChange={handleChange} required></input>
+                    <label>Name</label>
+                </div>
+                <button>Submit</button>
+            </form>
+        </div>
+    </>
   )
 }
 

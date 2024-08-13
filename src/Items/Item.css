@@ -1,16 +1,18 @@
 .itemCard {
-    background-color: white;
+    background-color: rgba(255,255,255,.75);
     text-align: left;
     min-height: 70px;
     width: 95%;
     border-radius: 6px;
     margin: auto;
+    transition: .5s;
     p {
         margin-left: 20px;
         color: black;
     }
 }
 .itemCard:hover {
+    background-color: rgba(255,255,255,.925);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 4px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -49,8 +51,8 @@ br {
 }
 
 .back-btn{
-    height: 40px;
-    width: 70px;
+    height: 50px;
+    width: min(20%, 120px);
 }
 
 .rmv-btn {

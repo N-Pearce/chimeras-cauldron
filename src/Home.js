@@ -14,8 +14,8 @@ const Home = () => {
 
   return (
     <div>
-        <h1>Chimera's Cauldron!</h1>
-        <h3>Welcome{user ? ` ${user}` : ''}!</h3>
+        <h1 className='white'>Welcome to Chimera's Cauldron!</h1>
+        <h3 className='white'>Welcome{user ? ` ${user}` : ''}!</h3>
         
         {!user ? 
         <div>
@@ -35,7 +35,7 @@ const Home = () => {
         :""}
 
         <Link to='/copyright-notice'>
-          <button style={{width: '18%', height: "50px"}}>
+          <button className='add-btn'>
             Copyright Notice
           </button>
         </Link>

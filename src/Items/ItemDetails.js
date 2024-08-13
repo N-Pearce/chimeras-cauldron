@@ -68,6 +68,7 @@ const ItemDetails = () => {
         boldedDesc.push(d.replace(/\*\*\*([^*]*(?:\*(?!\*)[^*]*)*)\*\*\*/g, '<b>$1</b>'))
     ))
 
+
     return (
     <>
         {isAdd ? 

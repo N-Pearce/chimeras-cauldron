@@ -15,7 +15,7 @@ const AddItem = () => {
         rarity: "Common",
         type: "Armor",
         slot: "Headwear",
-        attunement: false,
+        attunement: "Not Required",
         description: ""
     })
 
@@ -45,14 +45,6 @@ const AddItem = () => {
         }))
     }
 
-    const handleChecked = evt => {
-        let {name, checked} = evt.target
-        setFormData(fData => ({
-            ...fData,
-            [name]: checked
-        }))
-    }
-
     async function handleSubmit(evt) {
         evt.preventDefault()
         await Supabase.addItem(formData, source, user)
@@ -66,11 +58,16 @@ const AddItem = () => {
     if (source === "share-link"){
         return (
             <>
+                <h1 className='white'>Add Share Link</h1>
                 <div className='auth'>
-                    <h1>Add Share Link</h1>
                     <form onSubmit={handleSLSubmit}>
-                        Share Link
-                        <input name="share_link" onChange={handleSLChange}></input>
+
+                        <div className='input-field'>
+                            <input name="share_link" onChange={handleSLChange} required></input>
+                            <label>Share Link</label>
+                        </div>
+                        <br/>
+
                         {failed
                         ? <Alert messages={["Please enter a valid share link."]} />
                         : null}
@@ -88,54 +85,77 @@ const AddItem = () => {
 
   return (
     <>
+        <h1 className='white'>Add {source === 'homebrew' ? "Homebrew" : "5e"} Item</h1>
         <div className='auth'>
-            <h1>Add {source === 'homebrew' ? "Homebrew" : "5e"} Item</h1>
             <form onSubmit={handleSubmit}>
-                Name
-                <input name="name" onChange={handleChange} required></input>
-                Rarity
-                <select name='rarity' onChange={handleChange}>
-                    <option>Common</option>
-                    <option>Uncommon</option>
-                    <option>Rare</option>
-                    <option>Very Rare</option>
-                    <option>Legendary</option>
-                    <option>Artifact</option>
-                    <option>Varies</option>
-                    <option>Unknown Rarity</option>
-                </select>
-                Type
-                <select name='type' onChange={handleChange}>
-                    <option>Armor</option>
-                    <option>Potion</option>
-                    <option>Ring</option>
-                    <option>Rod</option>
-                    <option>Scroll</option>
-                    <option>Staff</option>
-                    <option>Wand</option>
-                    <option>Weapon</option>
-                    <option>Wondrous Item</option>
-                </select>
-                Slot
-                <select name='slot' onChange={handleChange}>
-                    <option>Headwear</option>
-                    <option>Cloak</option>
-                    <option>Amulet</option>
-                    <option>Armor</option>
-                    <option>Bracers</option>
-                    <option>Gloves</option>
-                    <option>Footwear</option>
-                    <option>Wielded Item</option>
-                    <option>Ring</option>
-                    <option>Misc</option>
-                </select>
-                Attunement?
-                <input name="attunement" type='checkbox' onChange={handleChecked}></input>
-                <br/>
-                Description <br/><br/>
-                (Text wrapped in ***triple asterisks*** will appear bold <br/>
-                ---Text after three hyphens will start a new paragraph)
-                <input name="description" type='text' onChange={handleChange} required></input>
+
+                <div className='input-field'>
+                    <input name="name" onChange={handleChange} required></input>
+                    <label>Name</label>
+                </div>
+
+                <div className='input-field'>
+                    <p className='pLabel'>Rarity</p>
+                    <select name='rarity' onChange={handleChange}>
+                        <option>Common</option>
+                        <option>Uncommon</option>
+                        <option>Rare</option>
+                        <option>Very Rare</option>
+                        <option>Legendary</option>
+                        <option>Artifact</option>
+                        <option>Varies</option>
+                        <option>Unknown Rarity</option>
+                    </select>
+                </div>
+                
+                <div className='input-field'>
+                    <p className='pLabel'>Type</p>
+                    <select name='type' onChange={handleChange}>
+                        <option>Armor</option>
+                        <option>Potion</option>
+                        <option>Ring</option>
+                        <option>Rod</option>
+                        <option>Scroll</option>
+                        <option>Staff</option>
+                        <option>Wand</option>
+                        <option>Weapon</option>
+                        <option>Wondrous Item</option>
+                    </select>
+                </div>
+                
+                <div className='input-field'>
+                    <p className='pLabel'>Slot</p>
+                    <select name='slot' onChange={handleChange}>
+                        <option>Headwear</option>
+                        <option>Cloak</option>
+                        <option>Amulet</option>
+                        <option>Armor</option>
+                        <option>Bracers</option>
+                        <option>Gloves</option>
+                        <option>Footwear</option>
+                        <option>Wielded Item</option>
+                        <option>Ring</option>
+                        <option>Misc</option>
+                    </select>
+                </div>
+                
+                <div className='input-field'>
+                    <p className='pLabel'>Attunement</p>
+                    <select name='attunement' onChange={handleChange}>
+                        <option>Not Required</option>
+                        <option>Required</option>
+                    </select>
+                </div>
+                
+                <div className='input-field'>
+                    <p className='pLabel'>Description</p>
+                    <textarea name='description' onChange={handleChange} required></textarea>
+                </div>
+                
+                <p className='pLabel' style={{marginTop: 0}}>
+                    ***Triple asterisks*** will make text bold <br/>
+                    ---Three hyphens will start a new paragraph
+                </p>
                 <button>Submit</button>
             </form>
         </div>

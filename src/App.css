@@ -38,18 +38,35 @@
 }
 
 body{
-  background-color:#61dafb;
+  background-image: url("https://wallpaperaccess.com/full/1120443.jpg");
+  background-size: 100%;
 }
 
 .white {
   color: white;
   text-shadow: black 2px 2px 4px;
+  font-family: Copperplate;
+}
+
+button {
+  background-color: #63304c;
+  color: white;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 2px solid #191825;
+}
+
+.alert {
+  border-radius: 6px;
+  width: min(250px, 70%);
+  color: white;
+  align-self: center;
 }
 
 .alert-success{
-  background-color: aqua;
+  background-color: #09a356;
 }
 
 .alert-danger {
-  background-color: lightcoral;
+  background-color: rgb(180, 40, 40);
 }

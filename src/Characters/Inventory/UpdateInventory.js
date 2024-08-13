@@ -35,17 +35,27 @@ const UpdateInventory = () => {
     if (!item) return <p className='white'>Loading...</p>
 
   return (
-    <div className='auth'>
-        <h1>Add or Remove Multiple</h1>
-        <h2>{item.name}</h2>
-        <h3>Current Count: {item.num_items}</h3>
-        <form onSubmit={handleSubmit}>
-            Add or remove from total: <br/>
-            (use "-" for removing) <br/>
-            <input name="toAdd" type='number' onChange={handleChange}></input>
-            <button>Submit</button>
-        </form>
-    </div>
+    <>
+        <h1 className='white'>Add or Remove Multiple</h1>
+        <div className='auth'>
+            <form onSubmit={handleSubmit}>
+                
+            <h2 className='white'>{item.name}</h2>
+            <h3 className='white' style={{margin: 0}}>Current Count: {item.num_items}</h3>
+
+            
+                <div className='input-field'>
+                    <input name="toAdd" type="number" onChange={handleChange} required></input>
+                    <label>Add/Remove Amount</label>
+                </div>
+                
+                <p className='pLabel' style={{marginTop: 0}}>
+                use "-" for subtracting
+                </p>
+                <button>Submit</button>
+            </form>
+        </div>
+    </>
   )
 }
 

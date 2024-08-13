@@ -27,21 +27,39 @@ const SignupForm = ({signup}) => {
     }
 
   return (
-    <div className='auth'>
-        <form onSubmit={handleSubmit}>
-            Username
-            <input name="username" onChange={handleChange} required></input>
-            Password
-            <input name="password" type='password' onChange={handleChange} required></input>
-            First Name
-            <input name="first_name" onChange={handleChange} required></input>
-            Last Name
-            <input name="last_name" onChange={handleChange} required></input>
-            Email
-            <input name="email" type='email' onChange={handleChange} required></input>
-            <button>Submit</button>
-        </form>
-    </div>
+    <>
+    <h1>Sign Up</h1>
+        <div className='auth'>
+            <form onSubmit={handleSubmit}>
+                <div className='input-field'>
+                    <input name="username" onChange={handleChange} required></input>
+                    <label>Username</label>
+                </div>
+
+                <div className='input-field'>
+                    <input name="password" type="password" onChange={handleChange} required></input>
+                    <label>Password</label>
+                </div>
+
+                <div className='input-field'>
+                    <input name="first_name" onChange={handleChange} required></input>
+                    <label>First Name</label>
+                </div>
+
+                <div className='input-field'>
+                    <input name="last_name" onChange={handleChange} required></input>
+                    <label>Last Name</label>
+                </div>
+
+                <div className='input-field'>
+                    <input name="email" type="email" onChange={handleChange} required></input>
+                    <label>Email</label>
+                </div>
+
+                <button>Submit</button>
+            </form>
+        </div>
+    </>
   )
 }
 

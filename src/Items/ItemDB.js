@@ -21,6 +21,7 @@ class ItemDB {
     const table = homebrew ? "homebrew_items" : "items_5e"
     const index = name.toLowerCase().trim().replace(/\s+/g,'-');
     const shareLink = uuid()
+    const requiresAttunement = attunement === "Required" ? true : false;
 
     const result = await supabase
       .from(table)
@@ -32,7 +33,7 @@ class ItemDB {
         rarity: rarity,
         type: type,
         slot: slot,
-        attunement: attunement,
+        attunement: requiresAttunement,
         description: description,
       })
       .select()
@@ -138,10 +139,10 @@ class ItemDB {
     return combinedData
   }
 
-  /** Given a company handle, return data about company.
+  /** Given a 5e item index or homebrew id, returns item data
    *
-   * Returns { handle, name, description, numEmployees, logoUrl, jobs }
-   *   where jobs is [{ id, title, salary, equity }, ...]
+   * Returns { name, (index or brew_id), rarity, type, slot, attunement, description, 
+   *    (share_link, and user (if homebrew)) }
    *
    * Throws NotFoundError if not found.
    **/
@@ -166,29 +167,14 @@ class ItemDB {
     throw new NotFoundError(`No item: ${index}`);
   }
 
-//   /** Update company data with `data`.
-//    *
-//    * This is a "partial update" --- it's fine if data doesn't contain all the
-//    * fields; this only changes provided ones.
-//    *
-//    * Data can include: {name, description, numEmployees, logoUrl}
-//    *
-//    * Returns {handle, name, description, numEmployees, logoUrl}
-//    *
-//    * Throws NotFoundError if not found.
-//    */
+
 
   static async update(handle, data) {  
-    // unneeded for current project
+    // not implemented. May be in future updates
   }
 
-//   /** Delete given company from database; returns undefined.
-//    *
-//    * Throws NotFoundError if company not found.
-//    **/
-
   static async remove(handle) {
-    // unneeded for current project
+    // not implemented. May be in future updates
   }
 
   /*
@@ -206,6 +192,10 @@ class ItemDB {
 
     return result.data
   }
+
+  /** Remove User from list of shared users
+   *  Generates new share link and distributes it to all other users to keep them in the share list
+   */
 
   static async removeSharedUser(share_link, link_type, user, userToRemove){
     const {share_link:userShareLink} = await Supabase.getUser(user)
