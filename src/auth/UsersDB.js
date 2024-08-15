@@ -45,7 +45,7 @@ class UserDB {
 
   /** Register user with data.
    *
-   * Returns { username, firstName, lastName, email, isAdmin }
+   * Returns { username, hashedPasword, firstName, lastName, email, isAdmin, shareLink }
    *
    * Throws BadRequestError on duplicates.
    **/
@@ -93,8 +93,7 @@ class UserDB {
 
   /** Given a username, return data about user.
    *
-   * Returns { username, first_name, last_name, is_admin, jobs }
-   *   where jobs is { id, title, company_handle, company_name, state }
+   * Returns { username, first_name, last_name, is_admin, share_link }
    *
    * Throws NotFoundError if user not found.
    **/
@@ -117,19 +116,13 @@ class UserDB {
 
   /** Update user data with `data`.
    *
-   * This is a "partial update" --- it's fine if data doesn't contain
-   * all the fields; this only changes provided ones.
-   *
    * Data can include:
-   *   { firstName, lastName, password, email, isAdmin }
+   *   { firstName, lastName, email }
    *
-   * Returns { username, firstName, lastName, email, isAdmin }
+   * Returns { firstName, lastName, email }
    *
    * Throws NotFoundError if not found.
    *
-   * WARNING: this function can set a new password or make a user an admin.
-   * Callers of this function must be certain they have validated inputs to this
-   * or a serious security risks are opened.
    */
 
   static async update(username, data) {
@@ -160,18 +153,31 @@ class UserDB {
     // unneeded for current project
   }
 
+  /**
+   * Creates a hashed passkey to save in localStorage
+   * 
+   * Used for keeping user logged in on page reload
+   */
+
   static async setHashedPasskey(username){
     const hashedPasskey = await bcrypt.hash(`${username}${HASH_SALT}`, BCRYPT_WORK_FACTOR)
     return hashedPasskey
   } 
 
+  /**
+   * Validates the passkey from localStorage to ensure it's the correct user's
+   */
+
   static async validatePasskey(username, passkey){
     return await bcrypt.compare(`${username}${HASH_SALT}`, passkey);
   }
 
-  /*
-    Share Links
-  */
+  /** 
+   * Determines if the share link is an item or user share link, saving that as link_type
+   * 
+   * Inserts {user, link_type, share_link} into shared_links where user is the username of 
+   * the user that the link was shared to.
+   */
 
   static async addShareLink(shareLink, user){
 

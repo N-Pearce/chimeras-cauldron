@@ -2,17 +2,17 @@ import supabase from '../../api-homebrew/supabaseClient.js'
 
 const {NotFoundError} = require("../../api-homebrew/expressError");
 
-/** Related functions for companies. */
+/** Related functions for Inventory Items */
 
 class InventoryDB {
 
-  /** Create a company (from data), update db, return new company data.
+  /** Create a new "in inventory" instance item
    *
-   * data should be { handle, name, description, numEmployees, logoUrl }
+   * data should be { index or brew_id (not both), characterId }
    *
-   * Returns { handle, name, description, numEmployees, logoUrl }
+   * Returns { num_items, item_5e_index, homebrew_item_id, character_id },
+   * where either item_5e_index or homebrew_item_id should be null
    *
-   * Throws BadRequestError if company already in database.
    * */
 
   static async add({index, brew_id}, characterId) {
@@ -31,15 +31,14 @@ class InventoryDB {
      return item;
     }
 
-//   /** Find all companies (optional filter on searchFilters).
-//    *
-//    * searchFilters (all optional):
-//    * - minEmployees
-//    * - maxEmployees
-//    * - name (will find case-insensitive, partial matches)
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
+  /** Find all "in inventory" instance items that matches given characterId
+   *
+   * Returns [{ id, num_items, index or brew_id (not both), name, rarity, slot, type }, ...]
+   * sorted alphabetically by name. 
+   * 
+   * All data besides id and num_items is from the items_5e table or homebrew_items table, 
+   * and flattened to have all data easily accesible in the object
+   * */
 
   static async getInventory(characterId) {
 
@@ -89,21 +88,24 @@ class InventoryDB {
     return data
   }
 
-  /** Given a company handle, return data about company.
+  /** Given an inventory id, return minimal about inventory item
    *
-   * Returns { handle, name, description, numEmployees, logoUrl, jobs }
-   *   where jobs is [{ id, title, salary, equity }, ...]
+   * Returns { id, num_items, name } where name can be from items_5e or homebrew_items, 
+   * but is flattened down for easy access within the object.
    *
    * Throws NotFoundError if not found.
    **/
 
   static async getItem(id) {
-    const {data} = await supabase.from("character_inventory")
+    const {data} = await supabase
+        .from("character_inventory")
         .select(`id,
                 num_items,
                 items_5e(name),
                 homebrew_items(name)`)
         .eq("id", id)
+
+    if (!data[0]) throw new NotFoundError(`No inventory id: ${id}`);
 
     if (data[0].items_5e)
         data[0].name = data[0].items_5e.name
@@ -113,29 +115,39 @@ class InventoryDB {
     return data[0]
   }
 
+  /**
+   * While in details page when looking changing equipped items, itemDetails has 
+   * item index of brew_id.
+   * 
+   * If equipped from that page, search for items in inventory with matching foreign key
+   * and equips it.
+   * 
+   * If multiple instances are found, the items are duplicate instances of the same item,
+   * so ignoring all but the first causes no issues.
+   */
 
   static async findItemFromDetails(characaterId, index){
     const foreignKey = index > 0 ? "homebrew_item_id" : "item_5e_index"
 
-    const {data} = await supabase.from("character_inventory")
+    const {data} = await supabase
+        .from("character_inventory")
         .select(`id`)
         .eq("character_id", characaterId)
         .eq(foreignKey, index)
 
+        console.log(data)
+
     return data[0].id
   }
 
-//   /** Update company data with `data`.
-//    *
-//    * This is a "partial update" --- it's fine if data doesn't contain all the
-//    * fields; this only changes provided ones.
-//    *
-//    * Data can include: {name, description, numEmployees, logoUrl}
-//    *
-//    * Returns {handle, name, description, numEmployees, logoUrl}
-//    *
-//    * Throws NotFoundError if not found.
-//    */
+  /** Update inventory item data with `num_items`.
+   * 
+   * num_items will always be the previous num_items + or - an amount
+   *
+   * Returns {id, character_id, equipped, homebrew_item_id or item_5e_index (not both), num_items}
+   *
+   * Throws NotFoundError if not found.
+   */
 
   static async update(id, num_items) {
     
@@ -153,10 +165,10 @@ class InventoryDB {
     return inventoryItem;
   }
 
-//   /** Delete given company from database; returns undefined.
-//    *
-//    * Throws NotFoundError if company not found.
-//    **/
+  /** Delete given inventory item from database; returns result.
+   *
+   * Throws NotFoundError if inventory item not found.
+   **/
 
   static async remove(id) {
     const result = await supabase
@@ -170,7 +182,12 @@ class InventoryDB {
 
   //// Equipped items functions
 
-  // add item to equipped, removes item of same slot
+  /**
+   * Set equipped of all items of given slot to false, 
+   * set equipped of given inventoryId to true
+   * 
+   * Returns NotFoundError if inventory item not found
+   */
 
   static async equipItem(inventoryId, slot, characterId){
 
@@ -201,7 +218,15 @@ class InventoryDB {
     return inventoryItem;
   }
 
-  // get all equipped item
+  /**Find all "in inventory" instance items that matches given characterId, 
+   * and where equipped is true
+   *
+   * Returns [{ id, num_items, index or brew_id (not both), name, rarity, slot, type }, ...]
+   * sorted alphabetically by name. 
+   * 
+   * All data besides id and num_items is from the items_5e table or homebrew_items table, 
+   * and flattened to have all data easily accesible in the object
+   */
 
   static async getAllEquipped(characterId) {
 
@@ -246,17 +271,15 @@ class InventoryDB {
         delete flattenedItem.homebrew_items
         data[i] = flattenedItem
     }
-    // console.log(data)
-
-    //////// 
-    // can it differentiate between
-    // homebrew and 5e after??
-    ///////
 
     return data
   }
 
-  // unequip item
+  /**
+   * Sets equipped to false for given inventoryId (as `id`)
+   * 
+   * Returns NotFoundError if inventory item not found
+   */
 
   static async removeFromEquipped(id){
     const result = await supabase.from("character_inventory")

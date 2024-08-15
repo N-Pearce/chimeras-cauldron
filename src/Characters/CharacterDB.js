@@ -3,16 +3,13 @@ import supabase from '../api-homebrew/supabaseClient.js'
 const {NotFoundError} = require("../api-homebrew/expressError");
 
 
-/** Related functions for companies. */
+/** Related functions for characters. */
 
 class CharacterDB {
-  /** Create a company (from data), update db, return new company data.
+  /** Create a character (from name), update db, return new character.
    *
-   * data should be { handle, name, description, numEmployees, logoUrl }
+   * Returns { id, user_name, user }
    *
-   * Returns { handle, name, description, numEmployees, logoUrl }
-   *
-   * Throws BadRequestError if company already in database.
    * */
 
   static async create({name, user_name}) {
@@ -24,20 +21,15 @@ class CharacterDB {
       })
       .select()
 
-    const item = result.data[0]
+    const character = result.data[0]
 
-    return item;
+    return character;
   }
 
-//   /** Find all companies (optional filter on searchFilters).
-//    *
-//    * searchFilters (all optional):
-//    * - minEmployees
-//    * - maxEmployees
-//    * - name (will find case-insensitive, partial matches)
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
+  /** Find all characters that match user_name
+   *
+   * Returns [{ id, name }, ...]
+   * */
 
   static async findAll({user}) {
 
@@ -49,10 +41,9 @@ class CharacterDB {
     return result.data
   }
 
-  /** Given a company handle, return data about company.
+  /** Given a character_id, character name
    *
-   * Returns { handle, name, description, numEmployees, logoUrl, jobs }
-   *   where jobs is [{ id, title, salary, equity }, ...]
+   * Returns { name }
    *
    * Throws NotFoundError if not found.
    **/
@@ -67,28 +58,21 @@ class CharacterDB {
     throw new NotFoundError(`No character: ${character_id}`);
   }
 
-//   /** Update company data with `data`.
-//    *
-//    * This is a "partial update" --- it's fine if data doesn't contain all the
-//    * fields; this only changes provided ones.
-//    *
-//    * Data can include: {name, description, numEmployees, logoUrl}
-//    *
-//    * Returns {handle, name, description, numEmployees, logoUrl}
-//    *
-//    * Throws NotFoundError if not found.
-//    */
+  /** Update character data with `data`.
+   *
+   * Throws NotFoundError if not found.
+   */
 
-  static async update(handle, data) {  
+  static async update() {  
     // unneeded for current project
   }
 
-//   /** Delete given company from database; returns undefined.
-//    *
-//    * Throws NotFoundError if company not found.
-//    **/
+  /** Delete given character from database; returns result.
+   *
+   * Throws NotFoundError if company not found.
+   **/
 
-  static async remove(handle) {
+  static async remove() {
     // unneeded for current project
   }
 }

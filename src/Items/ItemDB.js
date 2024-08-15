@@ -4,14 +4,17 @@ import supabase from '../api-homebrew/supabaseClient.js'
 
 const {NotFoundError} = require("../api-homebrew/expressError");
 
-/** Related functions for companies. */
+/** Related functions for items. */
 
 class ItemDB {
-  /** Create a company (from data), update db, return new company data.
+  /** Create a item (from data, source, and user), update db, return new item data.
    *
-   * data should be { handle, name, description, numEmployees, logoUrl }
+   * data should be { name, rarity, type, slot, attunement, description }
    *
-   * Returns { handle, name, description, numEmployees, logoUrl }
+   * if source = "homebrew"
+   * Returns { user, share_link, name, rarity, type, slot, attunement, description }
+   * else
+   * Returns { index, name, rarity, type, slot, attunement, description }
    *
    * Throws BadRequestError if company already in database.
    * */
@@ -43,20 +46,22 @@ class ItemDB {
     return item;
   }
 
-//   /** Find all companies (optional filter on searchFilters).
-//    *
-//    * searchFilters (all optional):
-//    * - minEmployees
-//    * - maxEmployees
-//    * - name (will find case-insensitive, partial matches)
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
+  /** Find all items that given user has access to. This should be all items from items_5e,
+   * all homebrew items created by the user, and all homebrew items shared with the user
+   *
+   * if source = "homebrew"
+   * Returns [{ user, share_link, name, rarity, type, slot, attunement, description }, ...]
+   * else
+   * Returns [{ index, name, rarity, type, slot, attunement, description }, ...]
+   * 
+   * Sorts all items by item name.
+   * 
+   * Returns sorted items.
+   * */
 
   static async findAll(name, user) {
 
-    // Prep for homebrew table with shared links
-
+    /// Finds all items shared to user with share_links
     const savedLinks = await supabase
       .from('shared_links')
       .select(`link_type,
@@ -78,6 +83,7 @@ class ItemDB {
     let itemLinks = JSON.stringify(itemLinksArr).replace(/\[/g, '(').replace(/\]/g, ')');
     let userLinks = JSON.stringify(userLinksArr).replace(/\[/g, '(').replace(/\]/g, ')');
 
+    // get all users from User Share Links, and self, to search for homebrew items
     const linkedUsersAndSelf = await supabase
       .from('users')
       .select('username')
@@ -90,7 +96,7 @@ class ItemDB {
 
     let usernames = JSON.stringify(usersArr).replace(/\[/g, '(').replace(/\]/g, ')');
 
-    // Call to the Item Tables
+    // All items from items_5e
     const result = await supabase
       .from("items_5e")
       .select(`index,
@@ -103,6 +109,8 @@ class ItemDB {
       .ilike("name", `%${name}%`)
       .order("name", {ascending: true});
     
+    // All homebrew made by given user and fro User Share Links,
+    // and items from Item Share Links
     const brew = await supabase
       .from('homebrew_items')
       .select(`brew_id,
@@ -117,6 +125,7 @@ class ItemDB {
       .ilike('name', `%${name}%`)
       .order("name", {ascending: true})
 
+    // Sort all returned items in order by name
     let i=0,j=0,k=0;
     let arr1=result.data, arr2=brew.data
     let n1=result.data.length, n2=brew.data.length
@@ -181,6 +190,13 @@ class ItemDB {
     Share Links
   */
 
+    /**
+     * Get all users a given share_link has access to, 
+     * whether it be User Share Link or Item Share Link
+     * 
+     * Returns [{user, link_type}, ...]
+     */
+
   static async getSharedUsers(share_link, user){
     const {share_link:userShareLink} = await Supabase.getUser(user)
 
@@ -193,8 +209,15 @@ class ItemDB {
     return result.data
   }
 
-  /** Remove User from list of shared users
-   *  Generates new share link and distributes it to all other users to keep them in the share list
+  /** Remove User from list of shared users.
+   *  
+   * Generates new share link and updates either the User Share Link from `users`
+   * or the Item Share Link from `homebrew_items`
+   * 
+   * Updates the share_link in `shared_links` for all other users that weren't removed, 
+   * maintaining their access to the shared items
+   * 
+   * Returns undefined.
    */
 
   static async removeSharedUser(share_link, link_type, user, userToRemove){
@@ -207,11 +230,11 @@ class ItemDB {
       .eq("user", userToRemove)
       .select()
 
+    const newLink = uuid()
     const {data: [{brew_id}]} = await supabase
       .from('homebrew_items')
       .select('brew_id')
       .eq("share_link", share_link)
-    const newLink = uuid()
 
     if (link_type === "item"){
       await supabase
