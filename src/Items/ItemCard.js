@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import './Item.css'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import Supabase from '../api-homebrew/Supabase'
@@ -15,11 +15,41 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     if (item.index) index = item.index
     const [numItems, setNumItems] = useState(num_items)
 
+    // Increment items on button hold
+    const [num, setNum] = useState(0)
+    const [count, setCount] = useState(0)
+    const [isRunning, setIsRunning] = useState(false)
+
+    useEffect(() => {
+        if (!isRunning) return;
+
+        const interval = setInterval(() => {
+            setCount((count) => {
+                console.log(count + num)
+                return count + num
+            })
+            setNumItems((numItems) => numItems + num)
+        }, 100)
+
+        return () => clearInterval(interval)
+    }, [isRunning])
+
+    const startCounter = (e, newNum) => {
+        setIsRunning(true)
+        setNum(num => newNum)
+    };
+    const stopCounter = async () => {
+        setIsRunning(false)
+        setCount(count => 0)
+        await Supabase.updateInventory(inventoryId, numItems+count)
+    };
+
     async function handleIncrement(evt, num) {
         evt.preventDefault()
         await Supabase.updateInventory(inventoryId, numItems+num)
         setNumItems(numItems => numItems + num)
     }
+    // End Increment code
 
     async function handleMultipleBtn(evt){
         evt.preventDefault()
@@ -51,7 +81,7 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
 
 
   return (
-    <Link className={'card'} 
+    <div className={'card'} // Link
         to={linkTo}>
 
       <div className='itemCard'>
@@ -61,10 +91,10 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
             </b>
 
             {state === 'isInventory' ? 
-            <b style={{flex: "1.8"}}>
+            <b style={{flex: "1"}}>
                 Count: {numItems}
-                <button onClick={(e) => handleIncrement(e, 1)} className='card-btn'>+1</button>
-                <button onClick={(e) => handleIncrement(e, -1)} className='card-btn'>-1</button>
+                <button onClick={(e) => handleIncrement(e, 1)} onMouseDown={(e) => startCounter(e, 1)} onMouseUp={(e) => stopCounter(e, 1)} onMouseLeave={(e) => stopCounter(e, 1)} className='card-btn'>+1</button>
+                <button onClick={(e) => handleIncrement(e, -1)} onMouseDown={(e) => startCounter(e, -1)} onMouseUp={(e) => stopCounter(e, -1)} onMouseLeave={(e) => stopCounter(e, -1)} className='card-btn'>-1</button>
                 <button onClick={handleMultipleBtn} className='card-btn'>Add/Remove Multiple</button>
             </b> 
 
@@ -89,7 +119,7 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
             <button className='rmv-btn' onClick={handleRemoveFromInventory}>Remove From Inventory</button>
         : ""}
       </div>
-    </Link>
+    </div>
   )
 }
 
