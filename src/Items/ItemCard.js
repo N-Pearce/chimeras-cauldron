@@ -23,15 +23,25 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     useEffect(() => {
         if (!isRunning) return;
 
-        const interval = setInterval(() => {
-            setCount((count) => {
-                console.log(count + num)
-                return count + num
-            })
-            setNumItems((numItems) => numItems + num)
-        }, 100)
 
-        return () => clearInterval(interval)
+        let interval
+        const timeout = setTimeout(function(){
+            
+            interval = setInterval(() => {
+                setCount((count) => {
+                    // console.log(count + num)
+                    return count + num
+                })
+                setNumItems((numItems) => numItems + num)
+            }, 80)
+            
+        }, 400)
+
+
+        return () => {
+            clearInterval(interval)
+            clearTimeout(timeout)
+        }
     }, [isRunning])
 
     const startCounter = (e, newNum) => {
