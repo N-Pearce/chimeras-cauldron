@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import UserContext from '../auth/UserContext'
-import Supabase from '../api-homebrew/Supabase'
+import Supabase from '../Database/Supabase'
 
 const AddCharacter = () => {
     const navigate = useNavigate()

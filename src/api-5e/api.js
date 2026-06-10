@@ -5,7 +5,8 @@ if (process.env.NODE_ENV !== "test"){
   })
 }
 
-const BASE_URL = process.env.API_BASE_URL || "https://www.dnd5eapi.co/api/";
+const BASE_URL = process.env.API_BASE_URL || "https://www.dnd5eapi.co/api/2014";
+// const BASE_URL = process.env.API_BASE_URL || "https://api.open5e.com/v2"
 
 /** API Class.
  *
@@ -32,14 +33,15 @@ class Dnd5eApi {
       return (await axios({ url, method, data, params })).data;
     } catch (err) {
       console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
+      console.log(err.response)
+      let message = err.response.data;
       throw Array.isArray(message) ? message : [message];
     }
   }
 
   // Individual API routes
 
-  /** Get details on a company by handle. */
+  /** Get details of a spell by name */
 
   static async getSpells(name) {
     let res = await this.request("spells", {name})

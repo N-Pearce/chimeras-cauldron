@@ -2,7 +2,7 @@ import React from 'react'
 import './Spell.css'
 import {Link} from 'react-router-dom'
 
-const SpellCard = ({index, name, level}) => {
+const SpellCard = ({index, name, level, url}) => {
 
     function getLevelText(level){
         if (!level) return "Cantrip"
@@ -12,12 +12,15 @@ const SpellCard = ({index, name, level}) => {
         return `${level}th Level`
     }
 
+    // console.log(url)
+    // console.log(index)
+
 
   return (
     <Link className={'card'} to={`/spells/${index}`}>
       <div className='spellCard'>
         <p>
-          <b>{name}</b> <br/>
+          <b>{name}</b> <span>Source - {url ? "D&D 5e" : ""}</span><br/>
           {getLevelText(level)}
         </p>
       </div>

@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react'
 import {useNavigate, useParams, Link} from 'react-router-dom'
 import Alert from '../common/Alert'
-import Supabase from '../api-homebrew/Supabase'
+import Supabase from '../Database/Supabase'
 import UserContext from '../auth/UserContext'
 
 const AddItem = () => {

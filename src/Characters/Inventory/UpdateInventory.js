@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import Supabase from '../../api-homebrew/Supabase'
+import Supabase from '../../Database/Supabase'
 
 const UpdateInventory = () => {
     const navigate = useNavigate()

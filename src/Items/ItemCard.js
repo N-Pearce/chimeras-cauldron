@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import './Item.css'
 import {Link, useNavigate, useParams} from 'react-router-dom'
-import Supabase from '../api-homebrew/Supabase'
+import Supabase from '../Database/Supabase'
 import UserContext from '../auth/UserContext'
 
 const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
@@ -10,7 +10,7 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     const {character} = useParams()
     // item from inventory, then all items
     const {id:inventoryId, num_items} = item;
-    const {brew_id, user:creator, name:itemName, rarity, type} = item;
+    const {brew_id, user:creator, name:itemName, rarity, type, attunement} = item;
     let {item_5e_index:index} = item;
     if (item.index) index = item.index
     const [numItems, setNumItems] = useState(num_items)
@@ -19,6 +19,10 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     const [num, setNum] = useState(0)
     const [count, setCount] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
+
+    // css class. Not working when imported from css file
+    const largeClass = {flex: '.25', marginRight: '10%', marginBottom: '1.5%', marginTop: '1.5%'};
+
 
     useEffect(() => {
         if (!isRunning) return;
@@ -69,7 +73,7 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     async function handleAddToInventory(evt){
         evt.preventDefault()
         await Supabase.addToInventory(item, characterId)
-        navigate(`/characters/${character}`)
+        navigate(`/characters/${character}/inventory`)
     }
 
     async function handleEquip(evt){
@@ -89,47 +93,51 @@ const ItemCard = ({item, slot, state, isAdd, rerender, setRerender}) => {
     if (state === "isInventory") linkTo += "isInventory=true"
     if (state === 'isEquip') linkTo += `isEquip=true&slot=${slot}`
 
-
+    
   return (
-    <div className={'card'} // Link
+    <Link className={'card'} // Link
         to={linkTo}>
 
       <div className='itemCard'>
         <p style={{display: "flex"}}>
-            <b style={{flex: "1"}}>
-                {itemName}
-            </b>
+            <span style={{flex: "1"}}>
+                <b>{itemName}</b>
+            
+            <br/>
+            <i>
+                {type}, <span className={rarity}>{rarity}</span>
+                {attunement ? " (Requires Attunement)" : ""}
+            </i>
+
+            <br/><br/>
+            {brew_id ? 
+                <span style={{marginTop: '3%', fontStyle: 'italic'}}>Made by {creator}</span>  
+            : ""}
+
+            </span>
 
             {state === 'isInventory' ? 
-            <b style={{flex: "1"}}>
-                Count: {numItems}
-                <button onClick={(e) => handleIncrement(e, 1)} onMouseDown={(e) => startCounter(e, 1)} onMouseUp={(e) => stopCounter(e, 1)} onMouseLeave={(e) => stopCounter(e, 1)} className='card-btn'>+1</button>
-                <button onClick={(e) => handleIncrement(e, -1)} onMouseDown={(e) => startCounter(e, -1)} onMouseUp={(e) => stopCounter(e, -1)} onMouseLeave={(e) => stopCounter(e, -1)} className='card-btn'>-1</button>
-                <button onClick={handleMultipleBtn} className='card-btn'>Add/Remove Multiple</button>
-            </b> 
+            <button style={largeClass} onClick={handleRemoveFromInventory}>Remove From Inventory</button>
+            // <b style={{flex: "1"}}>
+            //     {/* Count: {numItems}
+            //     <button onClick={(e) => handleIncrement(e, 1)} onMouseDown={(e) => startCounter(e, 1)} onMouseUp={(e) => stopCounter(e, 1)} onMouseLeave={(e) => stopCounter(e, 1)} className='card-btn'>+1</button>
+            //     <button onClick={(e) => handleIncrement(e, -1)} onMouseDown={(e) => startCounter(e, -1)} onMouseUp={(e) => stopCounter(e, -1)} onMouseLeave={(e) => stopCounter(e, -1)} className='card-btn'>-1</button>
+            //     <button onClick={handleMultipleBtn} className='card-btn'>Add/Remove Multiple</button> */}
+            // </b> 
 
             : isAdd ?
-            <button onClick={handleAddToInventory} style={{height: '50px', flex: '.25', marginRight: '10%', marginBottom: '-10%', marginTop: '1%'}}>Add</button>
+            <button style={largeClass} onClick={handleAddToInventory}>Add</button>
             
             : state === "isEquip" ?
-            <button onClick={handleEquip} style={{height: '50px', flex: '.25', marginRight: '10%', marginBottom: '-10%', marginTop: '1%'}}>Equip</button> 
+            <button style={largeClass} onClick={handleEquip}>Equip</button> 
             
             : ""}
             
         </p>
 
 
-        {brew_id ? 
-            <p style={{marginTop: '-10px'}}>Made by {creator}</p>  
-        : ""}
-        
-        <p><span className={rarity}>{rarity}</span> {type}</p>
-
-        {state === 'isInventory' ? 
-            <button className='rmv-btn' onClick={handleRemoveFromInventory}>Remove From Inventory</button>
-        : ""}
       </div>
-    </div>
+    </Link>
   )
 }
 

@@ -1,7 +1,9 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom"
-import Supabase from './api-homebrew/Supabase';
+import Supabase from './Database/Supabase';
+
+import MtgCardList from "./MtgCards/MtgCardList"
 
 import SpellList from "./Spells/SpellList"
 import SpellDetails from './Spells/SpellDetails';
@@ -10,6 +12,9 @@ import ItemList from './Items/ItemList'
 import ItemDetails from './Items/ItemDetails';
 import ShareLinkDetails from './Items/ShareLinkDetails';
 import AddItem from './Items/AddItem';
+
+import ClassPage from './Classes/ClassPage';
+import ClassDetails from './Classes/ClassDetails';
 
 import CharacterList from './Characters/CharacterList';
 import CharacterDetails from './Characters/CharacterDetails';
@@ -86,6 +91,8 @@ function App() {
           <BrowserRouter>
             <NavBar logout={logout}/>
             <Routes>
+              <Route path='/mtg-cards' element={<MtgCardList/>}></Route> 
+
               <Route path='/spells' element={<SpellList/>}></Route>
               <Route path='/spells/:index' element={<SpellDetails/>}></Route>
 
@@ -93,6 +100,9 @@ function App() {
               <Route path='/items/:index' element={<ItemDetails/>}></Route>
               <Route path='/share-link-info' element={<ShareLinkDetails/>}></Route>
               <Route path='/items/:source/add' element={<AddItem/>}></Route>
+
+              <Route path='/classes' element={<ClassPage/>}></Route>
+              <Route path='/classes/:class' element={<ClassDetails/>}></Route>
 
               <Route path='/characters' element={<CharacterList/>}></Route>
               <Route path='/characters/add' element={<AddCharacter/>}></Route>

@@ -1,6 +1,6 @@
-import supabase from '../../api-homebrew/supabaseClient.js'
+import supabase from '../../Database/supabaseClient.js'
 
-const {NotFoundError} = require("../../api-homebrew/expressError");
+const {NotFoundError} = require("../../Database/expressError.js");
 
 /** Related functions for Inventory Items */
 
@@ -46,19 +46,32 @@ class InventoryDB {
         .from("character_inventory")
         .select(`id,
                 num_items,
+                equipped,
                 items_5e 
                     (index,
                     name,
                     rarity,
                     slot,
-                    type),
+                    type,
+                    attunement,
+                    description,
+                    passive,
+                    action,
+                    bonus_action,
+                    reaction),
                 homebrew_items
                     (brew_id,
                     user,
                     name,
                     rarity,
                     slot,
-                    type)
+                    type,
+                    attunement,
+                    description,
+                    passive,
+                    action,
+                    bonus_action,
+                    reaction)
                 `)
         .eq("character_id", characterId)
 
@@ -80,6 +93,11 @@ class InventoryDB {
         }
         delete flattenedItem.items_5e
         delete flattenedItem.homebrew_items
+
+        // rename bonus_action to bonusAction
+        flattenedItem.bonusAction = flattenedItem.bonus_action
+        delete flattenedItem.bonus_action
+
         data[i] = flattenedItem
     }
     
@@ -218,6 +236,26 @@ class InventoryDB {
     return inventoryItem;
   }
 
+  /**
+   * Sets equipped to false for given inventoryId (as `id`)
+   * 
+   * Returns NotFoundError if inventory item not found
+   */
+
+  static async UnequipItem(id){
+    const result = await supabase.from("character_inventory")
+        .update({
+            equipped: false
+        })
+        .eq("id", id)
+        .select()
+
+    const inventoryItem = result.data[0];
+    if (!inventoryItem) throw new NotFoundError(`No item found in Inventory: ${inventoryItem}`);
+
+    return inventoryItem;
+  }
+
   /**Find all "in inventory" instance items that matches given characterId, 
    * and where equipped is true
    *
@@ -273,26 +311,6 @@ class InventoryDB {
     }
 
     return data
-  }
-
-  /**
-   * Sets equipped to false for given inventoryId (as `id`)
-   * 
-   * Returns NotFoundError if inventory item not found
-   */
-
-  static async removeFromEquipped(id){
-    const result = await supabase.from("character_inventory")
-        .update({
-            equipped: false
-        })
-        .eq("id", id)
-        .select()
-
-    const inventoryItem = result.data[0];
-    if (!inventoryItem) throw new NotFoundError(`No item found in Inventory: ${inventoryItem}`);
-
-    return inventoryItem;
   }
 }
 

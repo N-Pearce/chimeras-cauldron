@@ -5,6 +5,7 @@ nav {
 
 .ml-auto {
     display: flex;
+    list-style-type: none;
 }
 
 .nav-item {

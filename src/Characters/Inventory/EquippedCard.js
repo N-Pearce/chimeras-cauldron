@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom';
-import Supabase from '../../api-homebrew/Supabase';
+import Supabase from '../../Database/Supabase';
 
 const EquippedCard = ({item, slot, rerender, setRerender}) => {
     const {character} = useParams()

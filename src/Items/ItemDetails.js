@@ -2,7 +2,7 @@ import React, {useEffect, useState, useContext} from 'react'
 import {useParams, useNavigate, Link, useLocation} from 'react-router-dom'
 import UserContext from '../auth/UserContext'
 import {v4 as uuid} from 'uuid'
-import Supabase from '../api-homebrew/Supabase'
+import Supabase from '../Database/Supabase'
 
 const ItemDetails = () => {
     const navigate = useNavigate()

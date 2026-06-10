@@ -39,6 +39,8 @@ const SpellDetails = () => {
     desc.map(d => (
         boldedDesc.push(d.replace(/\*\*\*([^*]*(?:\*(?!\*)[^*]*)*)\*\*\*/g, '<b>$1</b>'))
     ))
+    // console.log(spell)
+    
 
     return (
     <>
@@ -49,11 +51,16 @@ const SpellDetails = () => {
         <div className='itemCard' style={{paddingLeft: 10, paddingRight: 10}}>
             <h1>{name}</h1>
 
+            {level >0 ? 
             <p>{getLevelText(level)} {school} {ritual ? '(ritual)' : ''}</p>
+            :
+            <p>{school} {getLevelText(level)} {ritual ? '(ritual)' : ''}</p> 
+            }
+            
 
             <p><b>Casting Time:</b> {casting_time} <br/>
             <b>Range:</b> {range} <br/>
-            <b>Components:</b> {components} {material ? `(${material})` : ''} <br/>
+            <b>Components:</b> {components.join(', ')} {material ? `(${material})` : ''} <br/>
             <b>Duration:</b> {concentration ? 'Concentration, ' : ''}{duration}</p>
 
             {boldedDesc.map((b, index) => (

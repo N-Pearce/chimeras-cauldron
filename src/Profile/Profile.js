@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import UserContext from '../auth/UserContext'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import Supabase from '../api-homebrew/Supabase'
+import Supabase from '../Database/Supabase'
 import Alert from '../common/Alert'
 
 const Profile = () => {

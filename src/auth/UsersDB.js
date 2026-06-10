@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs"
 import {v4 as uuid} from 'uuid'
-import supabase from "../api-homebrew/supabaseClient"
+import supabase from "../Database/supabaseClient"
 
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV !== "test" ? 
   +process.env.REACT_APP_BCRYPT_WORK_FACTOR : 1;
 const HASH_SALT = process.env.REACT_APP_HASH_SALT
-const {NotFoundError, UnauthorizedError, BadRequestError} = require("../api-homebrew/expressError");
+const {NotFoundError, UnauthorizedError, BadRequestError} = require("../Database/expressError");
 
 
 /** Related functions for users. */

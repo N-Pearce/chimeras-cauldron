@@ -27,11 +27,17 @@ function NavBar() {
         </NavLink>
 
         <Nav className="ml-auto" navbar>
+          {/* <NavItem>
+            <NavLink to="/mtg-cards">MTG Cards</NavLink>
+          </NavItem> */}
           <NavItem>
             <NavLink to="/spells">Spells</NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/items">Items</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/classes">Classes</NavLink>
           </NavItem>
           <NavItem>
             <NavLink to={`/characters`}>Characters</NavLink>

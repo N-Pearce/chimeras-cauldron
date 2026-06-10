@@ -22,9 +22,8 @@ const SpellList = () => {
     else search()
   }, [term])
 
-
-
   if (!spells) return (<p className='white'>Loading...</p>);
+
 
   return (
     <>
@@ -38,6 +37,7 @@ const SpellList = () => {
           index={s.index}
           name={s.name}
           level={s.level}
+          url={s.url ? s.url : ""}
         />
       ))}
     </>

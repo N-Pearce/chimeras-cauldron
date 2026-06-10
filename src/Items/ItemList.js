@@ -3,7 +3,7 @@ import { useNavigate, Link, useParams} from 'react-router-dom'
 import UserContext from '../auth/UserContext'
 import {v4 as uuid} from 'uuid'
 import ItemCard from './ItemCard'
-import Supabase from '../api-homebrew/Supabase'
+import Supabase from '../Database/Supabase'
 import SearchBar from '../SearchBar/SearchBar'
 
 const ItemList = ({isAdd, isEquip}) => {
@@ -39,7 +39,7 @@ const ItemList = ({isAdd, isEquip}) => {
         {isAdd ? 
           <div>
             <h1 className='white'>Add to Inventory</h1>
-            <Link to={`/characters/${character}`} >
+            <Link to={`/characters/${character}/inventory`} >
                 <button className='back-btn'>Back</button>
             </Link>
           </div>

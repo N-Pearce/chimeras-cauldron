@@ -1,6 +1,6 @@
-import supabase from '../api-homebrew/supabaseClient.js'
+import supabase from '../Database/supabaseClient.js'
 
-const {NotFoundError} = require("../api-homebrew/expressError");
+const {NotFoundError} = require("../Database/expressError.js");
 
 
 /** Related functions for characters. */
@@ -56,6 +56,64 @@ class CharacterDB {
                         
     if (result) return result.data[0].name
     throw new NotFoundError(`No character: ${character_id}`);
+  }
+
+  /** 
+   **/
+
+  static async getClassFeatures(character_id) {
+
+    const result = await supabase.from("character_class_features")
+                        .select(`class_features
+                                    (level,
+                                    name,
+                                    desc,
+                                    shorthand_action,
+                                    shorthand_bonus_action,
+                                    shorthand_reaction,
+                                    shorthand_passive,
+                                    shorthand_on_attack,
+                                    num_uses)`)
+                        .eq("character_id", character_id)
+                 
+    let data = result.data
+    for (let i in data){
+      let item = data[i].class_features
+      let flattenedItem = item;
+
+      // Rename to shorthandBonusAction
+      flattenedItem.shorthandBonusAction = flattenedItem.shorthand_bonus_action
+        delete flattenedItem.bonus_action
+      
+      data[i] = flattenedItem
+    }
+
+    if (result) return data
+    throw new NotFoundError(`No character: ${character_id}`);
+  }
+
+  static async addClassFeature(character_id, class_feature_id){
+    const result1 = await supabase
+      .from("character_class_features")
+      .select("id")
+      .eq("character_id", character_id)
+      .eq("class_feature_id", class_feature_id)
+
+    if (result1.data[0]) {
+      return;
+    }
+
+    const result = await supabase
+      .from("character_class_features")
+      .insert({
+        character_id: character_id,
+        class_feature_id: class_feature_id
+      })
+      .select()
+
+    const characterClassFeature = result.data[0]
+
+    return characterClassFeature;
   }
 
   /** Update character data with `data`.

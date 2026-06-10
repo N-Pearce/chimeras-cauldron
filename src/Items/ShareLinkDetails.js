@@ -6,7 +6,7 @@ const ShareLinkDetails = () => {
     <div className='itemCard' style={{paddingLeft: 10, paddingRight: 10}}>
         <h1 className='standard'>Share Links!</h1>
         <h3 className='standard'>What are they?</h3>
-        <p>Share links are what is used on this site to share homebrew between users!</p>
+        <p>Share links are what is used on this site to share homebrew between users.</p>
         <p>All you have to do is recieve a share link from someone, then enter 
             it on <Link to='/items/share-link/add'>this</Link> page. 
             Their homebrew will then show up just like your own! </p>
@@ -15,11 +15,11 @@ const ShareLinkDetails = () => {
 
         <h3 className='standard'>Where are Share Links Found?</h3>
         <p>There are two types of share links: <b>Item Share Links</b> and <b>User Share Links</b></p>
-        <p>An <b>Item Share Link</b> is found in the Item Details page of the creator of the homebrew, 
-            and will only add the single item to another user's list of items.
+        <p>An <b>Item Share Link</b> is found in the Item Details of your homebrew items, 
+            and will add only that item to another user's list of viewable items.
         </p>
         <p>A <b>User Share Link</b> is found in a user's profile, and will add all homebrew made by
-        that user to another user's list, including all homebrew made in the future.
+        you to another user's list, including all homebrew made in the future.
         </p>
         
         <h3 className='standard'>Removing Shared Items</h3>

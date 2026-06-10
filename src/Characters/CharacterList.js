@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import UserContext from '../auth/UserContext'
-import Supabase from '../api-homebrew/Supabase'
+import Supabase from '../Database/Supabase'
 import CharacterCard from './CharacterCard'
 import {v4 as uuid} from 'uuid'
 import './Character.css'

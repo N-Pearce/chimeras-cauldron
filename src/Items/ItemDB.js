@@ -1,8 +1,8 @@
-import Supabase from '../api-homebrew/Supabase';
+import Supabase from '../Database/Supabase.js';
 import {v4 as uuid} from 'uuid'
-import supabase from '../api-homebrew/supabaseClient.js'
+import supabase from '../Database/supabaseClient.js'
 
-const {NotFoundError} = require("../api-homebrew/expressError");
+const {NotFoundError} = require("../Database/expressError.js");
 
 /** Related functions for items. */
 
