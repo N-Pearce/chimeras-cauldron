@@ -109,7 +109,7 @@ class ItemDB {
       .ilike("name", `%${name}%`)
       .order("name", {ascending: true});
     
-    // All homebrew made by given user and fro User Share Links,
+    // All homebrew made by given user and from User Share Links,
     // and items from Item Share Links
     const brew = await supabase
       .from('homebrew_items')

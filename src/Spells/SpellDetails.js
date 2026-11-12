@@ -3,6 +3,7 @@ import {useParams, useNavigate, Link} from 'react-router-dom'
 import UserContext from '../auth/UserContext'
 import {v4 as uuid} from 'uuid'
 import Dnd5eApi from '../api-5e/api'
+import Supabase from '../Database/Supabase'
 
 const SpellDetails = () => {
     const navigate = useNavigate()
@@ -19,7 +20,7 @@ const SpellDetails = () => {
     }
 
     async function search(index){
-        let data = await Dnd5eApi.getSpell(index)
+        let data = await Supabase.getSpell(index)
         setSpell(data)
     }
 
@@ -32,15 +33,26 @@ const SpellDetails = () => {
     if (!spell) return <h1>Loading...</h1>
 
     const {name, desc, higher_level, range, components, material, ritual, duration} = spell
-    const {concentration, casting_time, level, classes} = spell
-    const school = spell.school.name
+    const {concentration, casting_time, level, classes, school} = spell
 
-    let boldedDesc = []
-    desc.map(d => (
-        boldedDesc.push(d.replace(/\*\*\*([^*]*(?:\*(?!\*)[^*]*)*)\*\*\*/g, '<b>$1</b>'))
-    ))
-    // console.log(spell)
+    // let boldedDesc = []
+    // desc.map(d => (
+    //     boldedDesc.push(d.replace(/\*\*\*([^*]*(?:\*(?!\*)[^*]*)*)\*\*\*/g, '<b>$1</b>'))
+    // ))
+    // // console.log(spell)
     
+    
+    let splitDesc = desc.split('---')
+    // console.log(splitDesc)
+    // for (let i=0; i<splitDesc.length; i++){
+    //     console.log(splitDesc[i])
+    //     let boldDesc = splitDesc[i].split("**")
+    //     console.log(boldDesc)
+    // }
+
+    // let boldDesc = desc.split('**')
+    // console.log(boldDesc)
+
 
     return (
     <>
@@ -51,32 +63,51 @@ const SpellDetails = () => {
         <div className='itemCard' style={{paddingLeft: 10, paddingRight: 10}}>
             <h1>{name}</h1>
 
-            {level >0 ? 
-            <p>{getLevelText(level)} {school} {ritual ? '(ritual)' : ''}</p>
-            :
-            <p>{school} {getLevelText(level)} {ritual ? '(ritual)' : ''}</p> 
-            }
+            {level > 0 ? 
+            <p>{getLevelText(level)} {school}</p>
+            : <p>{school} {getLevelText(level)}</p>}
             
 
-            <p><b>Casting Time:</b> {casting_time} <br/>
+            <p><b>Casting Time:</b> {casting_time} {ritual ? '(ritual)' : ''}<br/>
             <b>Range:</b> {range} <br/>
-            <b>Components:</b> {components.join(', ')} {material ? `(${material})` : ''} <br/>
-            <b>Duration:</b> {concentration ? 'Concentration, ' : ''}{duration}</p>
+            <b>Components:</b> {components} <br/>
+            {/* <b>Components:</b> {components.join(', ')} {material ? `(${material})` : ''} <br/> */}
+            <b>Duration:</b> {duration}</p>
 
-            {boldedDesc.map((b, index) => (
-                <p key={uuid()} dangerouslySetInnerHTML={{__html: boldedDesc[index]}}></p>
-            ))}
 
-            {higher_level[0] ? 
+            <p>{splitDesc.map((s, sIndex) => (
+                s.split("**").map((b, bIndex) => (
+                    <span key={uuid()}>
+                        {b == "" ? "" 
+                        : bIndex%2==1 ? <b>{b}</b> 
+                        : <span>{b}<br/><br/></span>}
+                    </span>
+                ))
+
+                 
+
+                // splitDesc[index].map((m, index) =>(
+                //     <p>{index}</p>
+                // ))
+                // <p key={uuid()} dangerouslySetInnerHTML={{__html: splitDesc[index]}}></p>
+            ))}</p>
+            
+
+            {higher_level ? 
+                <p><b>{level > 0 ? "Using a Higher-Level Spell Slot." : "Cantrip Upgrade."}</b> {higher_level}</p>
+            : ""}
+            
+
+            {/* {higher_level[0] ? 
                 higher_level.map(h => (
                     <p key={uuid()}><b>At Higher Levels: </b>{h}</p>
                 ))
-            :''}
+            :''} */}
 
-            <p><b>Classes: </b>
-                {classes.map((c, index) => (
+            <p><b>Classes: </b> {classes}
+                {/* {classes.map((c, index) => (
                     <span key={uuid()}>{c.name}{index !== classes.length -1 ? ', ' : ''}</span>
-                ))}
+                ))} */}
             </p>
 
             <br/>

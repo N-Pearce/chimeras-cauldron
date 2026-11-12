@@ -4,6 +4,7 @@ import UserContext from '../auth/UserContext'
 import SearchBar from '../SearchBar/SearchBar'
 import SpellCard from './SpellCard'
 import Dnd5eApi from '../api-5e/api'
+import Supabase from '../Database/Supabase'
 import {v4 as uuid} from 'uuid'
 
 const SpellList = () => {
@@ -11,10 +12,16 @@ const SpellList = () => {
   const {user} = useContext(UserContext)
   const [spells, setSpells] = useState(null)
   const [term, setTerm] = useState("")
+    const [admin, setAdmin] = useState(false)
 
   async function search(){
-    let data = await Dnd5eApi.getSpells(term)
+    // let data = await Dnd5eApi.getSpells(term)
+    // setSpells(data)
+
+    let data = await Supabase.getSpells(term, user)
     setSpells(data)
+    let {is_admin} = await Supabase.getUser(user)
+    if (is_admin) setAdmin(true)
   }
 
   useEffect(function getSpells(){
@@ -23,7 +30,6 @@ const SpellList = () => {
   }, [term])
 
   if (!spells) return (<p className='white'>Loading...</p>);
-
 
   return (
     <>
@@ -34,10 +40,7 @@ const SpellList = () => {
       {spells.map(s => (
         <SpellCard 
           key={uuid()}
-          index={s.index}
-          name={s.name}
-          level={s.level}
-          url={s.url ? s.url : ""}
+          spell={s}
         />
       ))}
     </>

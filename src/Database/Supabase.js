@@ -1,6 +1,7 @@
 import UserDB from '../auth/UsersDB';
 import ClassDB from '../Classes/ClassDB';
 import CharacterDB from '../Characters/CharacterDB';
+import SpellDB from '../Spells/SpellDB';
 import ItemDB from '../Items/ItemDB';
 import InventoryDB from '../Characters/Inventory/InventoryDB';
 import MtgCardDB from '../MtgCards/MtgCardDB';
@@ -68,6 +69,22 @@ class Supabase {
     static async addCharacterClassFeature(character_id, class_feature_id){
         return await CharacterDB.addClassFeature(character_id, class_feature_id)
     }
+    
+    /*
+        Spells (All WIP)
+    */
+
+    static async getSpells(name='', user){
+        return await SpellDB.findAll(name, user)
+    }
+
+    static async getSpell(index){
+        return await SpellDB.get(index)
+    }
+
+    // static async addItem(formData, source, user){
+    //     return await ItemDB.create(formData, source, user)
+    // }
 
     /*
         Items

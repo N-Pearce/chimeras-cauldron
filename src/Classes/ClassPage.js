@@ -23,8 +23,21 @@ const ClassPage = () => {
         // if (!characters) search()
     }, [])
 
-
-    let classes=[{name: "Barbarian"}, {name: "Bard"}, {name:"Cleric"}, {name:"Druid"}, {name:"Wizard"}]
+    // to Database
+    let classes=[
+        {name: "Barbarian"}, 
+        {name: "Bard"}, 
+        {name:"Cleric"}, 
+        {name:"Druid"}, 
+        {name: "Fighter"},
+        {name: "Monk"},
+        {name: "Paladin"},
+        {name: "Ranger"},
+        {name: "Rogue"},
+        {name: "Sorcerer"},
+        {name: "Warlock"},
+        {name:"Wizard"}
+    ]
     // if (!characters) return (<p className='white'>Loading...</p>);
 
     return (
